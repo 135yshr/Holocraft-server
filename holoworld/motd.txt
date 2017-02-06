@@ -1,5 +1,4 @@
-@9Welcome to Dockercraft!
-@9https://github.com/docker/dockercraft
+@9Welcome to Holoworld!
+@9https://github.com/135yshr/Holocraft-server
 @cWarning: Use on your local machine only
-@cDockercraft is not safe for use on production servers
-@9Type /docker to use docker CLI commands!
+@cHolocraft is not safe for use on production servers
