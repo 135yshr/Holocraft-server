@@ -11,3 +11,5 @@ COPY ./world world
 EXPOSE 25565
 
 COPY ./start.sh start.sh
+
+CMD ["/bin/sh", "/srv/start.sh"]
