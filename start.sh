@@ -3,5 +3,5 @@
 set -e
 
 # start Minecraft C++ server
-cd /srv/holoworld
+cd /srv/world
 cuberite
