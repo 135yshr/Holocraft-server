@@ -9,3 +9,5 @@ RUN ln -s /srv/cuberite_server/Cuberite /usr/bin/cuberite
 COPY ./world world
 
 EXPOSE 25565
+
+COPY ./start.sh start.sh
