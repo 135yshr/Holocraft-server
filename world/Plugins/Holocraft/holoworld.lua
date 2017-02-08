@@ -12,7 +12,7 @@ function Tick(TimeDelta)
 end
 
 function Initialize(Plugin)
-    Plugin:SetName("HoloWorld")
+    Plugin:SetName("Holocraft")
     Plugin:SetVersion(1)
 
     UpdateQueue = NewUpdateQueue()
@@ -33,6 +33,7 @@ function Initialize(Plugin)
 end
 
 function HandleRequest_HoloWorld(Request)
+    LOG("action: " .. Request.PostParams["action"])
 end
 
 function OnChunkGenerating(a_World, a_ChunkX, a_ChunkZ, a_ChunkDesc)
