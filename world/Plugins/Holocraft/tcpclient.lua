@@ -15,7 +15,7 @@ TCP_CLIENT = {
 
 		-- list containers
 		LOG("listing containers...")
-		SendTCPMessage("info",{"containers"},0)
+		SendTCPMessage("info", {"containers"}, 0)
 	end,
 	
 	OnError = function (TCPConn, ErrorCode, ErrorMsg)
@@ -28,7 +28,7 @@ TCP_CLIENT = {
 
 		-- retry to establish connection
 		LOG("retry cNetwork:Connect")
-		cNetwork:Connect("127.0.0.1",25566,TCP_CLIENT)
+		cNetwork:Connect("127.0.0.1", SERVER_PORTS, TCP_CLIENT)
 	end,
 	
 	OnReceivedData = function (TCPConn, Data)
@@ -44,11 +44,11 @@ TCP_CLIENT = {
 		for message in string.gmatch(TCP_DATA, '([^\n]+\n)') do
 		    shiftLen = shiftLen + string.len(message)
 		    -- remove \n at the end
-		    message = string.sub(message,1,string.len(message)-1)
+		    message = string.sub(message, 1, string.len(message)-1)
 		    ParseTCPMessage(message)
 		end
 
-		TCP_DATA = string.sub(TCP_DATA,shiftLen+1)
+		TCP_DATA = string.sub(TCP_DATA, shiftLen+1)
 
 	end,
 	
@@ -61,7 +61,7 @@ TCP_CLIENT = {
 
 		-- retry to establish connection
 		LOG("retry cNetwork:Connect")
-		cNetwork:Connect("127.0.0.1",25566,TCP_CLIENT)
+		cNetwork:Connect("127.0.0.1", SERVER_PORTS, TCP_CLIENT)
 	end,
 }
 
@@ -83,7 +83,7 @@ end
 -- global tcp connection TCP_CONN
 function ParseTCPMessage(message)
 	local m = json.parse(message)
-	if m.cmd == "event" and table.getn(m.args) > 0 and m.args[1] == "containers"
+	if m.cmd == "event" and table.getn(m.args) > 0 and m.args[1] == "players"
 	then
 		handleContainerEvent(m.data)
 	end
@@ -97,37 +97,9 @@ function handleContainerEvent(event)
 	event.imageRepo = event.imageRepo or ""
 	event.name = event.name or ""
 
-	if event.action == "containerInfos"
+	if event.action == "move"
 	then
-		local state = CONTAINER_STOPPED
-		if event.running then
-			state = CONTAINER_RUNNING
-		end
-		updateContainer(event.id,event.name,event.imageRepo,event.imageTag,state)
-	end
-
-	if event.action == "startContainer"
-	then
-		updateContainer(event.id,event.name,event.imageRepo,event.imageTag,CONTAINER_RUNNING)
-	end
-
-	if event.action == "createContainer"
-	then
-		updateContainer(event.id,event.name,event.imageRepo,event.imageTag,CONTAINER_CREATED)
-	end
-
-	if event.action == "stopContainer"
-	then
-		updateContainer(event.id,event.name,event.imageRepo,event.imageTag,CONTAINER_STOPPED)
-	end
-
-	if event.action == "destroyContainer"
-	then
-		destroyContainer(event.id)
-	end
-
-	if event.action == "stats"
-	then
-		updateStats(event.id,event.ram,event.cpu)
+		LOG(event.action)
+		-- movePlayer(id, pos)
 	end
 end

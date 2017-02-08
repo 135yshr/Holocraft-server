@@ -25,11 +25,16 @@ function Initialize(Plugin)
 
     cRankManager:SetDefaultRank("Admin")
 
+    Plugin:AddWebTab("HoloWorld", HandleRequest_HoloWorld)
+
     LOG("Initialised " .. Plugin:GetName() .. " v." .. Plugin:GetVersion())
 
     return true
 end
-    
+
+function HandleRequest_HoloWorld(Request)
+end
+
 function OnChunkGenerating(a_World, a_ChunkX, a_ChunkZ, a_ChunkDesc)
     a_ChunkDesc:SetUseDefaultBiomes(false)
     a_ChunkDesc:SetUseDefaultHeight(false)
