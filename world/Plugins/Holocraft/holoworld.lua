@@ -46,6 +46,14 @@ function HandleRequest_HoloWorld(Request)
         setBlock(UpdateQueue, x, y, z, blockType, E_META_WOOL_WHITE)
         LOG(action .. "(" .. pos.x .. "," .. pos.y .. "," .. pos.z .. ")")
     end
+    if action == "delblock" then
+        local blockType = E_BLOCK_AIR
+        local x = tonumber(Request.PostParams["pos_x"])
+        local y = tonumber(Request.PostParams["pos_y"])
+        local z = tonumber(Request.PostParams["pos_z"])
+        setBlock(UpdateQueue, x, y, z, blockType, E_META_WOOL_WHITE)
+        LOG(action .. "(" .. pos.x .. "," .. pos.y .. "," .. pos.z .. ")")
+    end
 end
 
 function OnChunkGenerating(a_World, a_ChunkX, a_ChunkZ, a_ChunkDesc)
