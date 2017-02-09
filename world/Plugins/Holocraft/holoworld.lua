@@ -38,17 +38,13 @@ function HandleRequest_HoloWorld(Request)
     local action = Request.PostParams["action"]
     LOG("action: " .. action)
 
-    if action == "move" then
-        local name = Request.PostParams["name"]
+    if action == "setblock" then
+        local blockType = E_BLOCK_WOOL
         local x = tonumber(Request.PostParams["pos_x"])
         local y = tonumber(Request.PostParams["pos_y"])
         local z = tonumber(Request.PostParams["pos_z"])
-        LOG("name: " .. name .. ", x:" .. x .. ", y:" .. y .. ", z:" .. z)
-
-        local player = Players[name]
-        player:SetPosition(x, y, z)
-        pos = player:GetPosition()
-        LOG(player:GetName() .. " joined(" .. pos.x .. "," .. pos.y .. "," .. pos.z .. ")")
+        setBlock(UpdateQueue, x, y, z, blockType, E_META_WOOL_WHITE)
+        LOG(action .. "(" .. pos.x .. "," .. pos.y .. "," .. pos.z .. ")")
     end
 end
 

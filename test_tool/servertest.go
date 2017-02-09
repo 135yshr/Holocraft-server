@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -8,17 +9,25 @@ import (
 )
 
 const (
-	BASE_URL = "http://127.0.0.1:8080/webadmin/Holocraft/HoloWorld"
+	BASE_URL = "http://192.168.11.16:8080/webadmin/Holocraft/HoloWorld"
 )
 
 func main() {
 
+	flag.Parse()
+
+	if flag.NArg() < 1 {
+		fmt.Println("parameter error")
+		return
+	}
+
+	action := flag.Arg(0)
+	pos_x, pos_y, pos_z := flag.Arg(1), flag.Arg(2), flag.Arg(3)
 	data := url.Values{
-		"action": {"move"},
-		"name":   {"135yshr"},
-		"pos_x":  {"5"},
-		"pos_y":  {"66"},
-		"pos_z":  {"8"},
+		"action": {action},
+		"pos_x":  {pos_x},
+		"pos_y":  {pos_y},
+		"pos_z":  {pos_z},
 	}
 	send(data)
 }
