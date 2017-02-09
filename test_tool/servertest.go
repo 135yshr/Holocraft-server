@@ -12,7 +12,18 @@ const (
 )
 
 func main() {
-	data := url.Values{"action": {"action"}}
+
+	data := url.Values{
+		"action": {"move"},
+		"name":   {"135yshr"},
+		"pos_x":  {"5"},
+		"pos_y":  {"66"},
+		"pos_z":  {"8"},
+	}
+	send(data)
+}
+
+func send(data url.Values) {
 	client := &http.Client{}
 	req, _ := http.NewRequest("POST", BASE_URL, strings.NewReader(data.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
@@ -21,5 +32,5 @@ func main() {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	fmt.Println(req)
+	fmt.Println("done")
 }

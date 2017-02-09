@@ -7,6 +7,8 @@ DummyFloor = {
     width_z = 14
 }
 
+Players = {}
+
 function Tick(TimeDelta)
     UpdateQueue:update(50)
 end
@@ -33,7 +35,21 @@ function Initialize(Plugin)
 end
 
 function HandleRequest_HoloWorld(Request)
-    LOG("action: " .. Request.PostParams["action"])
+    local action = Request.PostParams["action"]
+    LOG("action: " .. action)
+
+    if action == "move" then
+        local name = Request.PostParams["name"]
+        local x = tonumber(Request.PostParams["pos_x"])
+        local y = tonumber(Request.PostParams["pos_y"])
+        local z = tonumber(Request.PostParams["pos_z"])
+        LOG("name: " .. name .. ", x:" .. x .. ", y:" .. y .. ", z:" .. z)
+
+        local player = Players[name]
+        player:SetPosition(x, y, z)
+        pos = player:GetPosition()
+        LOG(player:GetName() .. " joined(" .. pos.x .. "," .. pos.y .. "," .. pos.z .. ")")
+    end
 end
 
 function OnChunkGenerating(a_World, a_ChunkX, a_ChunkZ, a_ChunkDesc)
@@ -56,8 +72,9 @@ function OnWorldStarted(World)
 end
 
 function OnPlayerJoined(Player)
-    -- enable flying
-    Player:AddPosition(0, 66, 8)
+    Players[Player:GetName()] = Player
+
+    Player:SetPosition(0, 66, 8)
     pos = Player:GetPosition()
     LOG(Player:GetName() .. " joined(" .. pos.x .. "," .. pos.y .. "," .. pos.z .. ")")
 end
