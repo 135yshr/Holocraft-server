@@ -13,17 +13,8 @@ var (
 )
 
 const (
-	cCOMMAND_FORMAT = "{action: %s, pos: {x: %s, y: %s, z: %s}}"
+	cCOMMAND_FORMAT = `{"action": "%s", "pos": {"x": %s, "y": %s, "z": %s}}`
 )
-
-type Command struct {
-	Action string `json:"action"`
-	Pos    struct {
-		X int `json:"x"`
-		Y int `json:"y"`
-		Z int `json:"z"`
-	} `json:"pos"`
-}
 
 func main() {
 	flag.Parse()
