@@ -1,7 +1,10 @@
 json = require "json"
+require("bit")
+require("hex")
 
 TCP_CONN = nil
 TCP_DATA = ""
+retry_count = 0
 
 TCP_CLIENT = {
 
@@ -15,7 +18,6 @@ TCP_CLIENT = {
 
 		-- list containers
 		LOG("listing containers...")
-		SendTCPMessage("info", {"containers"}, 0)
 	end,
 	
 	OnError = function (TCPConn, ErrorCode, ErrorMsg)
@@ -28,7 +30,11 @@ TCP_CLIENT = {
 
 		-- retry to establish connection
 		LOG("retry cNetwork:Connect")
-		cNetwork:Connect("127.0.0.1", SERVER_PORTS, TCP_CLIENT)
+		if retry_count < 3
+		then
+		    cNetwork:Connect(SERVER_ADDR, SERVER_PORTS, TCP_CLIENT)
+		    retry_count = retry_count+1
+		end
 	end,
 	
 	OnReceivedData = function (TCPConn, Data)
@@ -61,22 +67,20 @@ TCP_CLIENT = {
 
 		-- retry to establish connection
 		LOG("retry cNetwork:Connect")
-		cNetwork:Connect("127.0.0.1", SERVER_PORTS, TCP_CLIENT)
+	    cNetwork:Connect(SERVER_ADDR, SERVER_PORTS, TCP_CLIENT)
 	end,
 }
 
 -- SendTCPMessage sends a message over global
 -- tcp connection TCP_CONN. args and id are optional
 -- id stands for the request id.
-function SendTCPMessage(cmd, args, id)
+function SendTCPMessage(data)
 	if TCP_CONN == nil
 	then
 		LOG("can't send TCP message, TCP_CLIENT not connected")
 		return
 	end
-	local v = {cmd=cmd, args=args, id=id}
-	local msg = json.stringify(v) .. "\n"
-	TCP_CONN:Send(msg)
+	TCP_CONN:Send(json.stringify(data))
 end
 
 -- ParseTCPMessage parses a message received from

@@ -27,7 +27,7 @@ function Initialize(Plugin)
 
     cRankManager:SetDefaultRank("Admin")
 
-    Plugin:AddWebTab("HoloWorld", HandleRequest_HoloWorld)
+    cNetwork:Connect(SERVER_ADDR, SERVER_PORTS, TCP_CLIENT)
 
     LOG("Initialised " .. Plugin:GetName() .. " v." .. Plugin:GetVersion())
 
@@ -65,6 +65,8 @@ function OnChunkGenerating(a_World, a_ChunkX, a_ChunkZ, a_ChunkDesc)
 end
 
 function OnWorldStarted(World)
+    -- SendTCPMessage({action="world_size"})
+
     local y = DummyFloor.y + 65
     for x = DummyFloor.x, DummyFloor.width_x
     do
