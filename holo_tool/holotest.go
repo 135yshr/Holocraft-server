@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/binary"
+	// "encoding/binary"
 	"flag"
 	"fmt"
 	"net"
@@ -32,9 +32,9 @@ func main() {
 	}
 	defer conn.Close()
 
-	bs := make([]byte, 4)
-	binary.LittleEndian.PutUint32(bs, uint32(len(json)))
-	conn.Write(bs)
+	// bs := make([]byte, 4)
+	// binary.LittleEndian.PutUint32(bs, uint32(len(json)))
+	// conn.Write(bs)
 	conn.Write([]byte(json))
 	fmt.Println(json)
 }
