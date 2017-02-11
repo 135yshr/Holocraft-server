@@ -7,23 +7,22 @@ DummyFloor = {
     width_z = 14
 }
 
-Players = {}
-
 function Tick(TimeDelta)
     UpdateQueue:update(50)
 end
 
 function Initialize(Plugin)
-    Plugin:SetName("Holocraft")
+    Plugin:SetName("HoloWorld")
     Plugin:SetVersion(1)
 
     UpdateQueue = NewUpdateQueue()
 
     -- Hooks
     cPluginManager:AddHook(cPluginManager.HOOK_WORLD_STARTED, OnWorldStarted)
-    cPluginManager:AddHook(cPluginManager.HOOK_PLAYER_JOINED, OnPlayerJoined);
+    cPluginManager:AddHook(cPluginManager.HOOK_PLAYER_JOINED, OnPlayerJoined)
+    cPluginManager:AddHook(cPluginManager.HOOK_PLAYER_PLACED_BLOCK, OnPlayerPlacedBlock)
     cPluginManager:AddHook(cPluginManager.HOOK_CHUNK_GENERATING, OnChunkGenerating)
-    cPluginManager:AddHook(cPluginManager.HOOK_TICK, Tick);
+    cPluginManager:AddHook(cPluginManager.HOOK_TICK, Tick)
 
     cRankManager:SetDefaultRank("Admin")
 
@@ -78,9 +77,11 @@ function OnWorldStarted(World)
 end
 
 function OnPlayerJoined(Player)
-    Players[Player:GetName()] = Player
-
     Player:SetPosition(0, 66, 8)
     pos = Player:GetPosition()
     LOG(Player:GetName() .. " joined(" .. pos.x .. "," .. pos.y .. "," .. pos.z .. ")")
+end
+
+function OnPlayerPlacedBlock(Player, BlockX, BlockY, BlockZ, BlockType, BlockMeta)
+    SendTCPMessage({action="setblock", pos={x=BlockX, y=BlockY-65, z=BlockZ}})
 end
