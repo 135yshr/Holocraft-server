@@ -21,6 +21,7 @@ function Initialize(Plugin)
     cPluginManager:AddHook(cPluginManager.HOOK_WORLD_STARTED, OnWorldStarted)
     cPluginManager:AddHook(cPluginManager.HOOK_PLAYER_JOINED, OnPlayerJoined)
     cPluginManager:AddHook(cPluginManager.HOOK_PLAYER_PLACED_BLOCK, OnPlayerPlacedBlock)
+    cPluginManager:AddHook(cPluginManager.HOOK_PLAYER_BROKEN_BLOCK, OnPlayerBrokenBlock)
     cPluginManager:AddHook(cPluginManager.HOOK_CHUNK_GENERATING, OnChunkGenerating)
     cPluginManager:AddHook(cPluginManager.HOOK_TICK, Tick)
 
@@ -84,4 +85,8 @@ end
 
 function OnPlayerPlacedBlock(Player, BlockX, BlockY, BlockZ, BlockType, BlockMeta)
     SendTCPMessage({action="setblock", pos={x=BlockX, y=BlockY-65, z=BlockZ}})
+end
+
+function OnPlayerBrokenBlock(Player, BlockX, BlockY, BlockZ, BlockFace, BlockType, BlockMeta)
+    SendTCPMessage({action="delblock", pos={x=BlockX, y=BlockY-65, z=BlockZ}})
 end

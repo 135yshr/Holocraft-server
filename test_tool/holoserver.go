@@ -32,11 +32,6 @@ func handleRequest(conn net.Conn) {
 		fmt.Println("Error reading:", err.Error())
 		return
 	}
-	if size != 50 {
-		fmt.Println("not equals:", size)
-	}
-	if string(buf[:size]) != `{"action":"setblock", "pos":{"y":0, "x":0, "z":0}}` {
-		fmt.Println("not equals", string(buf[:size]))
-	}
+	fmt.Println(string(buf[:size]))
 	conn.Close()
 }
